@@ -1,11 +1,18 @@
+"use client";
+
 import Cards from "../data/data.json";
 import Image from "next/image";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 
 export default function Desserts({ className }) {
   return (
-    <section className={`${className}`}>
+    <section className={`${className} `}>
       {Cards.map((dessert, index) => {
+        // TODO:
+        // add onclick event to each article
+        // add onclick event to the "AddToCart" button
+        // when the button is click, the content of the button should or the button should change
+
         // destructure each dessert object
         const {
           name,
@@ -13,6 +20,7 @@ export default function Desserts({ className }) {
           category,
           price,
         } = dessert;
+
         // format the price to 2 decimal places
         const formattedPrice = parseFloat(price).toFixed(2);
 
@@ -22,7 +30,8 @@ export default function Desserts({ className }) {
         return (
           <article
             key={index}
-            className="shadow-md font-bold text-lg p-2 rounded-xl"
+            className="shadow-md cursor-pointer hover:opacity-85 transition-all duration-300 font-bold text-lg p-2 rounded-xl"
+            tabIndex={0}
           >
             <figure className="rounded-xl">
               <Image
