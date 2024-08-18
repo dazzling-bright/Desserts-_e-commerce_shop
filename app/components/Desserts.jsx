@@ -1,19 +1,47 @@
 "use client";
 
+import { useState } from "react";
 import Cards from "../data/data.json";
 import Image from "next/image";
-import { MdOutlineAddShoppingCart } from "react-icons/md";
+
+import AlterCartSize from "./AlterCartBtn";
+import AddToCart from "./AddToCart";
 
 export default function Desserts({ className }) {
-  return (
-    <section className={`${className} `}>
-      {Cards.map((dessert, index) => {
-        // TODO:
-        // add onclick event to each article
-        // add onclick event to the "AddToCart" button
-        // when the button is click, the content of the button should or the button should change
+  const [cart, setCart] = useState([]); // State to hold cart items
 
-        // destructure each dessert object
+  const handleAddToCart = (dessert) => {
+    setCart((prevCart) => {
+      // Check if the dessert is already in the cart
+      const existingItem = prevCart.find((item) => item.name === dessert.name);
+      if (existingItem) {
+        // If already in cart, update its quantity
+        return prevCart.map((item) =>
+          item.name === dessert.name
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // If not in cart, add it with quantity 1
+        return [...prevCart, { ...dessert, quantity: 1 }];
+      }
+    });
+  };
+
+  const handleUpdateQuantity = (dessert, amount) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) =>
+        item.name === dessert.name
+          ? { ...item, quantity: item.quantity + amount }
+          : item
+      );
+    });
+  };
+
+  return (
+    <section className={`${className}`}>
+      {Cards.map((dessert, index) => {
+        // Destructure each dessert object
         const {
           name,
           image: { mobile, tablet, desktop, thumbnail },
@@ -21,16 +49,19 @@ export default function Desserts({ className }) {
           price,
         } = dessert;
 
-        // format the price to 2 decimal places
+        // Format the price to 2 decimal places
         const formattedPrice = parseFloat(price).toFixed(2);
 
         // Create a function to remove the leading '.' from image paths
         const adjustImagePath = (path) => path.replace(/^\.\//, "/");
 
+        // Check if the dessert is already in the cart
+        const cartItem = cart.find((item) => item.name === name);
+
         return (
           <article
             key={index}
-            className="shadow-md cursor-pointer hover:opacity-85 transition-all duration-300 font-bold text-lg p-2 rounded-xl"
+            className="shadow-md cursor-pointer hover:scale-105 transition-all duration-300 font-bold text-lg p-2 rounded-xl"
             tabIndex={0}
           >
             <figure className="rounded-xl">
@@ -43,10 +74,17 @@ export default function Desserts({ className }) {
                 quality={100}
               />
 
-              <button className="flex w-fit mx-auto -translate-y-[25px] h-[50px] bg-white gap-2 rounded-3xl border border-rose-100 text-red shadow-md px-6 py-3 place-items-center hover:bg-red hover:text-white hover:border-transparent transition-all duration-300">
-                <MdOutlineAddShoppingCart className="text-xl" />
-                <span>Add to Cart</span>
-              </button>
+              {cartItem ? (
+                <AlterCartSize
+                  cartItem={cartItem}
+                  handleUpdateQuantity={handleUpdateQuantity}
+                />
+              ) : (
+                <AddToCart
+                  handleAddToCart={handleAddToCart}
+                  dessert={dessert}
+                />
+              )}
             </figure>
             <div className="grid gap-1">
               <p className="text-rose-400">{category}</p>
