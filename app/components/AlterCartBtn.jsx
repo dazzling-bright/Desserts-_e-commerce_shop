@@ -1,6 +1,13 @@
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 function AlterCartSize({ handleUpdateQuantity, cartItem, dessert }) {
+  const handleQuantityChange = (e) => {
+    const newValue = parseInt(e.target.value, 10);
+    if (!isNaN(newValue)) {
+      handleUpdateQuantity(dessert, newValue - cartItem.quantity);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mx-auto rounded-3xl -translate-y-[25px] h-[50px] w-3/4 gap-4 p-2 bg-red">
       <button
@@ -12,7 +19,7 @@ function AlterCartSize({ handleUpdateQuantity, cartItem, dessert }) {
       <input
         type="number"
         value={cartItem.quantity}
-        onChange={(e) => handleUpdateQuantity(dessert, e)}
+        onChange={handleQuantityChange}
         className="bg-white w-1/2 rounded text-center no-arrows p-1 shadow-md"
       />
       <button

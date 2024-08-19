@@ -1,6 +1,6 @@
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 
-function AddToCart({handleAddToCart, dessert}) {
+function AddToCart({ handleAddToCart, dessert }) {
   return (
     <button
       onClick={() => handleAddToCart(dessert)}

@@ -1,38 +1,13 @@
 "use client";
 
-import { useState } from "react"; // Import useState from React
 import Cards from "../data/data.json";
 import Image from "next/image";
+import { useCart } from "./hooks/useCart";
 import AlterCartSize from "./AlterCartBtn";
 import AddToCart from "./AddToCart";
-import handleUpdateQuantity from "./functions/handleUpdateQuantity"; // Correct import
 
 export default function Desserts({ className }) {
-  const [cart, setCart] = useState([]); // State to hold cart items
-
-  const updateQuantity = (dessert, itemQuantity) => {
-    setCart((prevCart) =>
-      handleUpdateQuantity(prevCart, dessert, itemQuantity)
-    );
-  };
-
-  const handleAddToCart = (dessert) => {
-    setCart((prevCart) => {
-      // Check if the dessert is already in the cart
-      const existingItem = prevCart.find((item) => item.name === dessert.name);
-      if (existingItem) {
-        // If already in cart, update its quantity
-        return prevCart.map((item) =>
-          item.name === dessert.name
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        // If not in cart, add it with quantity 1
-        return [...prevCart, { ...dessert, quantity: 1 }];
-      }
-    });
-  };
+  const { cart, handleAddToCart, handleUpdateQuantity } = useCart(); // Destructure context values
 
   return (
     <section className={`${className}`}>
@@ -69,7 +44,7 @@ export default function Desserts({ className }) {
               {cartItem && cartItem.quantity > 0 ? (
                 <AlterCartSize
                   cartItem={cartItem}
-                  handleUpdateQuantity={updateQuantity}
+                  handleUpdateQuantity={handleUpdateQuantity}
                   dessert={dessert}
                 />
               ) : (

@@ -11,7 +11,7 @@ const handleUpdateQuantity = (cart, dessert, itemQuantity) => {
       if (newQuantity > 0) {
         return [...accumulator, { ...item, quantity: newQuantity }];
       } else {
-        // If the new quantity is 0, remove the item (do not add it to the new array)
+       
         return accumulator;
       }
     }
