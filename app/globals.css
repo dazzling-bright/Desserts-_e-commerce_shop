@@ -21,3 +21,18 @@
     font-weight: bold;
   }
 }
+
+@layer components {
+
+  /* Chrome, Safari, Edge, Opera */
+  .no-arrows::-webkit-inner-spin-button,
+  .no-arrows::-webkit-outer-spin-button {
+    @apply appearance-none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .no-arrows {
+    -moz-appearance: textfield;
+  }
+}
