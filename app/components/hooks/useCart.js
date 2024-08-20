@@ -34,9 +34,20 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  // function to remove item from the cart
+  const handleRemoveFromCart = (name) => {
+    setCart((prevCart) => prevCart.filter((item) => item.name !== name));
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, handleAddToCart, handleUpdateQuantity }}
+      value={{
+        cart,
+        setCart,
+        handleRemoveFromCart,
+        handleAddToCart,
+        handleUpdateQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>

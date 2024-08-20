@@ -1,4 +1,4 @@
-import Cart from "./components/Cart";
+import Cart from "./components/Cart/Cart";
 import Desserts from "./components/Desserts";
 import { CartProvider } from "./components/hooks/useCart";
 
